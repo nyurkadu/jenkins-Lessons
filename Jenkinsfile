@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GIT_REPO   = 'github.com/nyurkadu/jenkins-Lessons'
-        GIT_BRANCH = 'master'
+        GIT_BRANCH = 'main'
     }
 
     stages {
