@@ -14,6 +14,12 @@ pipeline {
                 sh 'echo "Code tests passed successfully!"'
             }
         }
+        stage('Read Version') {
+            steps {
+                echo 'Reading version.txt...'
+                sh 'cat version.txt'
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
