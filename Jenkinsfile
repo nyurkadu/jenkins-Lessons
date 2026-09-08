@@ -53,10 +53,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy to Staging') {
             steps {
-                echo 'Deploying application...'
+                echo 'Deploying application to Staging...'
                 sh 'echo "App $(cat version.txt) successfully deployed to Staging!"'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying application to Production...'
+                sh 'echo "App $(cat version.txt) successfully deployed to Production!"'
             }
         }
     }
