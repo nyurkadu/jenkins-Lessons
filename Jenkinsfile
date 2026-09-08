@@ -14,5 +14,11 @@ pipeline {
                 sh 'echo "Code tests passed successfully!"'
             }
         }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+                sh 'echo "App successfully deployed to Staging!"'
+            }
+        }
     }
 }
