@@ -34,6 +34,11 @@ pipeline {
                     echo "$NEW_VERSION" > version.txt
                     echo "Version bumped: $OLD_VERSION -> $NEW_VERSION"
                 '''
+                script {
+                    env.NEW_VERSION = readFile('version.txt').trim()
+                    env.PATCH_NUMBER = env.NEW_VERSION.tokenize('.').last()
+                    echo "Patch number ${env.PATCH_NUMBER} is ${env.PATCH_NUMBER.toInteger() % 2 == 0 ? 'even -> Staging' : 'odd -> Production'}"
+                }
             }
         }
         stage('Push Version') {
@@ -54,14 +59,20 @@ pipeline {
             }
         }
         stage('Deploy to Staging') {
+            when {
+                expression { env.PATCH_NUMBER.toInteger() % 2 == 0 }
+            }
             steps {
-                echo 'Deploying application to Staging...'
+                echo 'Even version -> deploying application to Staging...'
                 sh 'echo "App $(cat version.txt) successfully deployed to Staging!"'
             }
         }
         stage('Deploy to Production') {
+            when {
+                expression { env.PATCH_NUMBER.toInteger() % 2 != 0 }
+            }
             steps {
-                echo 'Deploying application to Production...'
+                echo 'Odd version -> deploying application to Production...'
                 sh 'echo "App $(cat version.txt) successfully deployed to Production!"'
             }
         }
